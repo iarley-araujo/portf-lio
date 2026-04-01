@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Pedidos - Dark Mode</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <aside class="sidebar-controls" data-html2canvas-ignore="true">
+            <div class="brand-title">
+                <span>🔥</span> MarketList
+            </div>
+
+            <div class="control-group">
+                <label>Catálogo Rápido</label>
+                <select id="catalogo" onchange="preencherCampos()">
+                    <option value="">-- Selecione --</option>
+                </select>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-color); margin: 10px 0;"></div>
+
+            <div class="control-group">
+                <label>Nome do Produto</label>
+                <input type="text" id="produto" placeholder="Nome do item">
+            </div>
+
+            <div class="control-group">
+                <label>Quantidade</label>
+                <input type="number" id="qtd" placeholder="1" value="1">
+            </div>
+
+            <div class="control-group">
+                <label>Preço Unit. (R$)</label>
+                <input type="number" id="preco" placeholder="0.00" step="0.01">
+            </div>
+
+            <button id="btn-add" onclick="adicionarItem()">Adicionar à Lista</button>
+        </aside>
+
+        <main class="main-content" id="conteudo-pdf">
+            
+            <div class="header-panel">
+                <div>
+                    <h2>Novo Pedido</h2>
+                    <p id="data-topo" style="color: var(--text-gray); font-size: 14px;">Carregando...</p>
+                </div>
+                
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <button class="theme-toggle-btn" onclick="alternarTema()" data-html2canvas-ignore="true">
+                        <span id="icone-tema">🌙</span>
+                    </button>
+                    
+                    <div style="background: rgba(46, 125, 50, 0.1); color: #2E7D32; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: 600;">
+                        Status: Aberto
+                    </div>
+                </div>
+            </div>
+
+            <div class="widgets-area">
+                <div class="card-widget">
+                    <div class="icon-box icon-yellow">📦</div>
+                    <div class="widget-data">
+                        <h3 id="total-qtd">0</h3>
+                        <span>Itens Totais</span>
+                    </div>
+                </div>
+                <div class="card-widget">
+                    <div class="icon-box icon-blue">💰</div>
+                    <div class="widget-data">
+                        <h3 id="valor-total">R$ 0,00</h3>
+                        <span>Valor Final</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 20px; font-size: 18px;">Itens do Pedido</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th width="45%">Produto</th>
+                        <th>Qtd</th>
+                        <th>Unitário</th>
+                        <th>Total</th>
+                        <th data-html2canvas-ignore="true">Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-compras">
+                    </tbody>
+            </table>
+
+            <div class="actions-bar" data-html2canvas-ignore="true">
+                <button id="btn-clear" class="btn-action" onclick="limparLista()">Limpar</button>
+                <button id="btn-pdf" class="btn-action" onclick="baixarPDF()">Baixar PDF</button>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // --- 1. LÓGICA DO TEMA ESCURO ---
+        function alternarTema() {
+            const html = document.documentElement;
+            const icone = document.getElementById('icone-tema');
+            
+            // Verifica se tem o atributo data-theme="dark"
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme'); // Volta pro claro
+                icone.innerText = '☀️'; // Ícone de lua
+                localStorage.setItem('tema', 'claro');
+            } else {
+                html.setAttribute('data-theme', 'dark'); // Vai pro escuro
+                icone.innerText = '🌙'; // Ícone de sol
+                localStorage.setItem('tema', 'escuro');
+            }
+        }
+
+        // Carregar preferência salva
+        const temaSalvo = localStorage.getItem('tema');
+        if (temaSalvo === 'escuro') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('icone-tema').innerText = '☀️';
+        }
+
+        // --- 2. DADOS E LÓGICA DO SISTEMA ---
+        const produtosDB = [
+            { categoria: 'MEIAS', nome: 'Meia Soquete', preco: 12.00 },
+            { categoria: 'MEIAS', nome: 'Meia Louca Paixão', preco: 17.00 },
+            { categoria: 'MEIAS', nome: 'Meião Algodão', preco: 17.00 },
+            { categoria: 'MEIAS', nome: 'Meia Cano Longo', preco: 18.00 },
+            { categoria: 'MEIAS', nome: 'Meia Infantil', preco: 14.00 },
+            { categoria: 'MEIAS', nome: 'Meia Infantil Antiderrapante', preco: 15.00 },
+            { categoria: 'MEIAS', nome: 'Meia Infantil Personagem', preco: 20.00 },
+            { categoria: 'MEIAS', nome: 'Meia Personagem', preco: 11.00 },
+            { categoria: 'MEIAS', nome: 'Meia Futebol', preco: 80.00 },
+            { categoria: 'MEIAS', nome: 'Meia Futebol Curto', preco: 55.00 },
+            { categoria: 'MEIAS', nome: 'Meia sapatilha', preco: 14.00 },
+            { categoria: 'ELETRÔNICOS', nome: 'Fone M10', preco: 12.00 },
+            { categoria: 'ELETRÔNICOS', nome: 'Fone i12 Pro', preco: 12.00 },
+            { categoria: 'ELETRÔNICOS', nome: 'Fone i Pro', preco: 15.00 },
+            { categoria: 'ELETRÔNICOS', nome: 'AirPods Sem Visor', preco: 12.00 },
+            { categoria: 'ELETRÔNICOS', nome: 'AirPods Com Visor', preco: 13.00 },
+            { categoria: 'ELETRÔNICOS', nome: 'Cabo Carregador', preco: 2.50 },
+            { categoria: 'CASA & COZINHA', nome: 'Faca Colorida', preco: 10.00 },
+            { categoria: 'CASA & COZINHA', nome: 'Faca Preta', preco: 12.00 },
+            { categoria: 'CASA & COZINHA', nome: 'Utensílios de Cozinha', preco: 10.00 },
+            { categoria: 'BRINQUEDOS', nome: 'Máquina de Dragão', preco: 9.00 },
+            { categoria: 'BRINQUEDOS', nome: 'Labubu', preco: 6.00 },
+            { categoria: 'BRINQUEDOS', nome: 'Labubu Girador', preco: 72.00 },
+            { categoria: 'BRINQUEDOS', nome: 'Pacote Sonic', preco: 78.00 },
+            { categoria: 'DIVERSOS', nome: 'Cueca (Unidade)', preco: 4.00 },
+            { categoria: 'DIVERSOS', nome: 'Cueca (Pacote)', preco: 40.00 },
+            { categoria: 'DIVERSOS', nome: 'Bolsa Térmica', preco: 5.00 },
+            { categoria: 'DIVERSOS', nome: 'guarda chuva', preco: 14.00 }
+        ];
+
+        let listaPedidos = [];
+
+        window.onload = function() {
+            carregarCatalogo();
+            atualizarData();
+        };
+
+        function atualizarData() {
+            const data = new Date();
+            const opcoes = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('data-topo').innerText = data.toLocaleDateString('pt-BR', opcoes);
+        }
+
+        function carregarCatalogo() {
+            const select = document.getElementById('catalogo');
+            const categoriasUnicas = [...new Set(produtosDB.map(item => item.categoria))];
+            
+            categoriasUnicas.forEach(cat => {
+                const optGroup = document.createElement('optgroup');
+                optGroup.label = cat;
+                produtosDB.forEach((item, index) => {
+                    if (item.categoria === cat) {
+                        const option = document.createElement('option');
+                        option.value = index;
+                        option.text = item.nome; 
+                        optGroup.appendChild(option);
+                    }
+                });
+                select.appendChild(optGroup);
+            });
+        }
+
+        function preencherCampos() {
+            const select = document.getElementById('catalogo');
+            const index = select.value;
+            if (index !== "") {
+                const item = produtosDB[index];
+                document.getElementById('produto').value = item.nome;
+                document.getElementById('preco').value = item.preco;
+                const campoQtd = document.getElementById('qtd');
+                campoQtd.value = '1'; 
+                campoQtd.focus();
+            }
+        }
+
+        document.getElementById('qtd').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') adicionarItem();
+        });
+
+        function adicionarItem() {
+            const nomeInput = document.getElementById('produto');
+            const qtdInput = document.getElementById('qtd');
+            const precoInput = document.getElementById('preco');
+            const nome = nomeInput.value;
+            const qtd = parseFloat(qtdInput.value);
+            const preco = parseFloat(precoInput.value);
+
+            if (nome === '' || isNaN(qtd) || isNaN(preco) || qtd <= 0) {
+                alert('Preencha os campos corretamente.');
+                return;
+            }
+
+            listaPedidos.push({ id: Date.now(), nome: nome, qtd: qtd, preco: preco, total: qtd * preco });
+            atualizarTela();
+
+            document.getElementById('catalogo').value = "";
+            nomeInput.value = "";
+            qtdInput.value = "1";
+            precoInput.value = "";
+            document.getElementById('catalogo').focus();
+        }
+
+        function atualizarTela() {
+            const tbody = document.getElementById('lista-compras');
+            tbody.innerHTML = "";
+            let totalFinanceiro = 0;
+            let totalItens = 0;
+
+            listaPedidos.forEach((item, index) => {
+                totalFinanceiro += item.total;
+                totalItens += item.qtd;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 35px; height: 35px; background: #eee; border-radius: 50%; overflow: hidden; min-width: 35px;">
+                                <img src="https://ui-avatars.com/api/?name=${item.nome}&background=random&color=fff&size=128" width="35">
+                            </div>
+                            <span style="font-weight: 500;">${item.nome}</span>
+                        </div>
+                    </td>
+                    <td style="color: var(--text-gray);">x${item.qtd}</td>
+                    <td>R$ ${item.preco.toFixed(2)}</td>
+                    <td class="price-tag">R$ ${item.total.toFixed(2)}</td>
+                    <td data-html2canvas-ignore="true">
+                        <button class="btn-delete" onclick="removerItem(${index})">X</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('valor-total').innerText = totalFinanceiro.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('total-qtd').innerText = totalItens;
+        }
+
+        function removerItem(index) {
+            listaPedidos.splice(index, 1);
+            atualizarTela();
+        }
+
+        function limparLista() {
+            if (confirm('Deseja limpar toda a lista?')) {
+                listaPedidos = [];
+                atualizarTela();
+            }
+        }
+
+        function baixarPDF() {
+            const elemento = document.getElementById('conteudo-pdf');
+            const opt = {
+                margin: 10,
+                filename: 'pedido_bringova.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            elemento.classList.add('pdf-mode');
+            html2pdf().set(opt).from(elemento).save().then(() => {
+                elemento.classList.remove('pdf-mode');
+            });
+        }
+    </script>
+</body>
+</html>

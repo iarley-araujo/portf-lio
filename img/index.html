@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio Tech | Iarley Carvalho</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        .card-media {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: #000;
+        }
+        .card-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.3s ease;
+        }
+        .gif-preview {
+            opacity: 0;
+            z-index: 10;
+        }
+        .static-img {
+            z-index: 5;
+        }
+        .project-card:hover .gif-preview {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-background"></div>
+
+    <nav class="tech-nav">
+       <ul>
+        <li><a href="#home">Início</a></li>
+        <li><a href="#about">Sobre</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experiência</a></li>
+        <li><a href="#projects">Projetos</a></li>
+    </ul>
+    </nav>
+
+<section id="home" class="full-screen">
+        <div class="tech-container">
+            <div class="hero-wrapper">
+                <div class="hero-photo-frame">
+                    <img src="iarley.jpeg" alt="Iarley Carvalho">
+                </div>
+                <div class="hero-info-area">
+                    <div class="selection-box">
+                        <div class="handle tl"></div> <div class="handle tr"></div> <div class="handle bl"></div> <div class="handle br"></div> <div class="handle tm"></div> <div class="handle bm"></div> <div class="fake-cursor">
+                            <i class="fas fa-mouse-pointer"></i>
+                            <i class="fas fa-plus small-plus"></i>
+                        </div>
+                        <h1 class="hero-name">IARLEY<br>CARVALHO</h1>
+                        <p class="hero-subtitle">creative design & dev</p>
+                    </div>
+                    <div class="hero-social-list">
+                        <a href="https://www.instagram.com/iarley_dev?igsh=MXNhbWxjbmMzanAzcg==" class="social-item">
+                            <i class="fab fa-instagram"></i> <span>@iarley_dev</span>
+                        </a>
+                        <a href="#" class="social-item">
+                            <i class="fab fa-linkedin"></i> <span>/iarleycarvalho</span>
+                        </a>
+                        <a href="#" class="social-item">
+                            <i class="fab fa-github"></i> <span>github.com/iarley</span>
+                        </a>
+                        <a href="#" class="social-item">
+                            <i class="fas fa-envelope"></i> <span>pciarley06@email.com</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <section id="about" class="full-screen">
+        <div class="tech-container">
+            <div class="about-hud-wrapper">
+                <div class="about-badge">SOBRE MIM</div>
+                <div class="hud-connector-line"></div>
+                <div class="about-text-area">
+                    <div class="hud-dot"></div>
+                    <p>
+                        Olá, me chamo <strong>Iarley Carvalho</strong>. Sou um desenvolvedor focado em 
+                        <strong>Segurança da Informação</strong> e <strong>Full Stack</strong>.
+                        <br><br>
+                        Minha jornada começou com curiosidade sobre como sistemas funcionam por dentro e evoluiu para a criação de interfaces 
+                        seguras e futuristas. Tenho experiência com <strong>JavaScript, PHP e Python</strong>, 
+                        sempre buscando unir design imersivo com código limpo e eficiente.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ <section id="skills" class="full-screen">
+        <div class="tech-container">
+            <h2 class="section-title"> <span class="bracket">[</span> SKILLS & TOOLS <span class="bracket">]</span> </h2>
+            <div class="skills-split-wrapper">
+                
+                <div class="skills-column">
+                    <h3 class="column-title"><i class="fas fa-tools"></i> Tools</h3>
+                    <div class="skills-tree">
+                        <div class="tree-trunk"></div>
+                        <div class="tree-crossbar"></div>
+                        <div class="tree-nodes">
+                            
+                            <div class="node-item">
+                                <div class="node-stem"></div>
+                                <div class="icon-box" style="background: #111; border-color: #555;">
+                                    <i class="fab fa-linux"></i>
+                                </div>
+                                <p>Kali Linux</p>
+                            </div>
+
+                            <div class="node-item">
+                                <div class="node-stem"></div>
+                                <div class="icon-box" style="background: #007ACC; border-color: #0098FF;">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <p>VS Code</p>
+                            </div>
+
+                            <div class="node-item">
+                                <div class="node-stem"></div>
+                                <div class="icon-box" style="background: #e67e22; border-color: #d35400;">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <p>SQL</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skills-divider"></div>
+
+                <div class="skills-column">
+                    <h3 class="column-title"><i class="fas fa-code"></i> Dev Stats</h3>
+                    <div class="gamified-grid">
+                        <div class="xp-card">
+                            <div class="xp-info"><span><i class="fab fa-php"></i> PHP</span><span class="xp-val">90%</span></div>
+                            <div class="xp-bar"><div class="xp-fill" style="width: 90%;"></div></div>
+                        </div>
+                        <div class="xp-card">
+                            <div class="xp-info"><span><i class="fab fa-js"></i> JavaScript</span><span class="xp-val">85%</span></div>
+                            <div class="xp-bar"><div class="xp-fill" style="width: 85%;"></div></div>
+                        </div>
+                        <div class="xp-card">
+                            <div class="xp-info"><span><i class="fab fa-python"></i> Python</span><span class="xp-val">10%</span></div>
+                            <div class="xp-bar"><div class="xp-fill" style="width: 10%;"></div></div>
+                        </div>
+                        <div class="xp-card">
+                            <div class="xp-info"><span><i class="fas fa-shield-alt"></i> Java</span><span class="xp-val">50%</span></div>
+                            <div class="xp-bar"><div class="xp-fill" style="width: 50%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="full-screen">
+        <div class="tech-container">
+            <h2 class="section-title"> <span class="bracket">[</span> EXPERIÊNCIA & CERTIFICADOS <span class="bracket">]</span> </h2>
+            <div class="timeline-wrapper">
+                
+                <div class="timeline-block">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-line"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3><i class="fas fa-briefcase"></i> Vendedor e Estoquista</h3>
+                            <span class="time-badge">2 Anos</span>
+                        </div>
+                        <p>Experiência prática em logística, organização de estoque e atendimento ao cliente.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-block">
+                    <div class="timeline-marker education-marker"></div>
+                    <div class="timeline-line"></div> <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3><i class="fas fa-graduation-cap"></i> Desenvolvimento de Sistemas</h3>
+                            <span class="time-badge etec-badge">Jan 2022 - Dez 2025</span>
+                        </div>
+                        <h4 class="institution-name">ETEC (Escola Técnica Estadual)</h4>
+                        <p>Curso técnico completo focado em lógica de programação e Full Stack. Iniciado em janeiro de 2022 e concluído em 11/12/2025.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-block">
+                    <div class="timeline-marker education-marker" style="box-shadow: 0 0 10px #00ff88; border-color: #00ff88;"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3><i class="fas fa-university"></i> Engenharia da Computação</h3>
+                            <span class="time-badge" style="color: #00ff88; border-color: #00ff88;">Cursando</span>
+                        </div>
+                        <h4 class="institution-name">FSA - Fundação Santo André</h4>
+                        <p>Graduação em andamento. Foco em hardware, arquitetura de computadores e desenvolvimento avançado.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+   <section id="projects" class="full-screen">
+        <div class="tech-container">
+            <h2 class="section-title"> <span class="bracket">[</span> MY PROJECTS <span class="bracket">]</span> </h2>
+            
+            <div class="projects-wrapper">
+                
+                <a href="mario-clone/js/index.html" target="_blank" class="project-card">
+                    <div class="card-media">
+                        <img src="img/mario.png" class="static-img" alt="Capa Mario">
+                        <img src="img/mario.gif" class="gif-preview" alt="Mario Gameplay">
+                    </div>
+                    <h4>Super Mario Jump</h4>
+                    <p>Jogo estilo runner desenvolvido com Game Loop em JavaScript Puro.</p>
+                </a>
+
+                <a href="https://portfolioeducacionalrgs.com/TCC_2025/DS/pfcisaude/inicio/" target="_blank" class="project-card">
+                    <div class="card-media">
+                        <img src="img/pfci.png" class="static-img" alt="Capa PFCI">
+                        <img src="img/pfci.gif" class="gif-preview" alt="PFCI Saúde Preview">
+                    </div>
+                    <h4>PFCI Saúde (TCC)</h4>
+                    <p>Sistema de Estudos Médicos. PHP, SQL e Dashboard interativa.</p>
+                </a>
+
+                <a href="precos/index.html" target="_blank" class="project-card">
+                    <div class="card-media">
+                        <img src="img/preco.png" class="static-img" alt="Capa Estoque">
+                        <img src="img/preco.gif" class="gif-preview" alt="Sistema Estoque Preview">
+                    </div>
+                    <h4>Sistema de Estoque</h4>
+                    <p>Controle de inventário e precificação de produtos (Projeto Preços).</p>
+                </a>
+
+                <a href="solutimix/inicio/index.php" target="_blank" class="project-card">
+                    <div class="card-media">
+                        <img src="img/solutimix.png" class="static-img" alt="Capa Solutimix">
+                        <img src="img/solutimix.gif" class="gif-preview" alt="Solutimix E-commerce">
+                    </div>
+                    <h4>Solutimix</h4>
+                    <p>Plataforma de E-commerce e Loja Virtual robusta.</p>
+                </a>
+
+                        <a href="aximoz.com" target="_blank" class="project-card">
+                <div class="card-media">
+                    <img src="img/aximoz-capa.jpg" class="static-img" alt="Capa Aximoz">
+                    <img src="img/aximoz-preview.gif" class="gif-preview" alt="Aximoz Wallet Preview">
+                </div>
+                <h4>Aximoz Wallet</h4>
+                <p>Carteira digital de investimentos e gestão financeira.</p>
+            </a>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Developed by <strong>IARLEY CARVALHO ARAUJO</strong> | 2025</p>
+    </footer>
+
+</body>
+</html>
