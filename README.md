@@ -1,4 +1,4 @@
-<img src="https://i.imgur.com/rW6y62i.gif" width="100%" alt="Cyber Banner">
+<img src="image (4).png" width="100%" alt="Cyber Banner">
 
 <h1 align="center">🚀 Meu Portfólio Central | Web & Security</h1>
 
